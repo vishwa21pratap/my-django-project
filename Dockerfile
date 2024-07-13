@@ -1,20 +1,22 @@
-# Use the official Python image from the Docker Hub
+# Use an official Python runtime as a parent image
 FROM python:3.9-slim
 
-# Set the working directory
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Copy the requirements file into the container
+# Copy the requirements file and install dependencies
 COPY requirements.txt ./
+RUN pip install -r requirements.txt
 
-# Install any dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the current directory contents into the container
+# Copy the entire project directory into the container
 COPY . .
 
-# Copy the pytest configuration file
-COPY pytest.ini ./
+# Expose port 8000 to allow communication to/from server
+EXPOSE 8000
 
-# Run the tests
+# Command to run tests
 CMD ["pytest"]
