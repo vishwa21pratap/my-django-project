@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     environment {
         DOCKER_IMAGE = 'my-django-app'
     }
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script {
                     // Run tests inside the Docker container
-                    docker.image(DOCKER_IMAGE).inside("-v /c/Users/VISHWA/.jenkins/workspace/assignmnt:/usr/src/app") {
+                    docker.image(DOCKER_IMAGE).inside {
                         sh 'python manage.py test'
                     }
                 }
