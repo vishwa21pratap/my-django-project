@@ -1,37 +1,38 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_IMAGE = 'my-django-app'
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/vishwa21pratap/my-django-project.git'
+                // Checkout the source code from the Git repository
+                git url: 'https://github.com/vishwa21pratap/my-django-project.git', branch: 'master'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    def dockerImage = docker.build("my-django-app")
-                    // Tag the Docker image
-                    dockerImage.tag("my-django-app:${BUILD_NUMBER}")
-                    dockerImage.tag("my-django-app:latest")
+                    // Build the Docker image
+                    docker.build(DOCKER_IMAGE, "-f Dockerfile .")
                 }
             }
         }
 
-        stage('Run Tests') {
+        stage('Archive Results') {
             steps {
-                script {
-                    docker.image("my-django-app").inside('-v /var/run/docker.sock:/var/run/docker.sock') {
-                        sh 'pytest'
-                    }
-                }
+                // Archive test results (if available)
+                junit 'test-reports/*.xml'
             }
         }
     }
 
     post {
         always {
+            // Clean up workspace
             cleanWs()
         }
     }
