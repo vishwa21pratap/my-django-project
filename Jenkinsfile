@@ -11,10 +11,10 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def dockerImage = docker.build("my_django_app")
+                    def dockerImage = docker.build("my-django-app")
                     // Tag the Docker image
-                    dockerImage.tag("my_django_app:${BUILD_NUMBER}")
-                    dockerImage.tag("my_django_app:latest")
+                    dockerImage.tag("my-django-app:${BUILD_NUMBER}")
+                    dockerImage.tag("my-django-app:latest")
                 }
             }
         }
@@ -22,7 +22,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    docker.image("my_django_app").inside('-v /var/run/docker.sock:/var/run/docker.sock') {
+                    docker.image("my-django-app").inside('-v /var/run/docker.sock:/var/run/docker.sock') {
                         sh 'pytest'
                     }
                 }
