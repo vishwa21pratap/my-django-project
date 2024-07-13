@@ -26,11 +26,12 @@ pipeline {
             steps {
                 script {
                     // Convert Windows path to Unix-style path for Docker volume mount
-                    def workspaceUnix = pwd().replace('\\', '/')
+                    def workspaceUnix = pwd().replace('\\', '/').replace('C:', '')
+                    workspaceUnix = '/' + workspaceUnix // Ensure it starts with a forward slash
                     echo "Unix-style workspace path: ${workspaceUnix}"
                     
                     // Run tests inside the Docker container
-                    docker.image(DOCKER_IMAGE).inside("-v ${workspaceUnix}:/usr/src/app") {
+                    docker.image(DOCKER_IMAGE).inside("-v ${workspaceUnix}:/usr/src/app -w /usr/src/app") {
                         sh 'ls -al /usr/src/app' // List files to check if the path is correct
                         sh 'python manage.py test'
                     }
