@@ -12,9 +12,9 @@ pipeline {
             steps {
                 script {
                     def dockerImage = docker.build("my-django-app")
-                    // Tag the Docker image
-                    dockerImage.tag("my-django-app:${BUILD_NUMBER}")
-                    dockerImage.tag("my-django-app:latest")
+                    // Tag the Docker image with build number and latest
+                    dockerImage.tag("${env.BUILD_NUMBER}")
+                    dockerImage.tag("latest")
                 }
             }
         }
