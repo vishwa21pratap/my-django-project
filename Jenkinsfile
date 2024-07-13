@@ -25,12 +25,12 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Convert Windows path to Unix-style path
+                    // Convert Windows path to Unix-style path for Docker volume mount
                     def workspaceUnix = pwd().replace('\\', '/')
                     echo "Unix-style workspace path: ${workspaceUnix}"
                     
                     // Run tests inside the Docker container
-                    docker.image(DOCKER_IMAGE).inside("-v ${workspaceUnix}/usr/src/app") {
+                    docker.image(DOCKER_IMAGE).inside("-v ${workspaceUnix}:/usr/src/app") {
                         sh 'ls -al /usr/src/app' // List files to check if the path is correct
                         sh 'python manage.py test'
                     }
