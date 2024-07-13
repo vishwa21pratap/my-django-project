@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script {
                     // Run the tests inside the Docker container
-                    docker.image(DOCKER_IMAGE).inside('-v C:/Users/VISHWA/.jenkins/workspace/assignmnt:/usr/src/app') {
+                    docker.image(DOCKER_IMAGE).inside("-v ${WORKSPACE}:/usr/src/app") {
                         sh 'pytest'
                     }
                 }
