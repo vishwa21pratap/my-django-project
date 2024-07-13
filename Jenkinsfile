@@ -22,12 +22,7 @@ pipeline {
             }
         }
 
-        stage('Archive Results') {
-            steps {
-                // Archive test results (if available)
-                junit 'test-reports/*.xml'
-            }
-        }
+        
     }
 
     post {
