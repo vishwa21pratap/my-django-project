@@ -11,7 +11,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def dockerImage = docker.build("my-django-app")
+                    def dockerImage = docker.build("my_django_app")
                     // Tag the Docker image
                     dockerImage.tag("my-django-app:${BUILD_NUMBER}")
                     dockerImage.tag("my-django-app:latest")
