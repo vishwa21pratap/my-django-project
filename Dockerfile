@@ -8,11 +8,9 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Install any needed packages specified in requirements.txt
-RUN pip install -r requirements.txt
-
-# Run Django migrations and collect static files (if needed)
-RUN python manage.py migrate
-RUN python manage.py collectstatic --noinput
+RUN pip install -r requirements.txt \
+    && python manage.py migrate \
+    && python manage.py collectstatic --noinput
 
 # Define the command to run your Django application
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
