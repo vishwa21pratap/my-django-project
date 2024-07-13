@@ -25,9 +25,15 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
+                    // Convert Windows path to Unix-style path
+                    def workspaceUnix = pwd().replace('\\', '/')
+                    
                     // Run tests inside the Docker container
-                    docker.image(DOCKER_IMAGE).inside {
-                        sh 'python manage.py test'
+                    docker.image(DOCKER_IMAGE).inside("-v ${workspaceUnix}:/usr/src/app") {
+                        sh '''
+                            cd /usr/src/app
+                            python manage.py test
+                        '''
                     }
                 }
             }
