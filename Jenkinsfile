@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+    
     environment {
         DOCKER_IMAGE = 'my-django-app'
     }
@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    docker.build(DOCKER_IMAGE)
+                    docker.build(DOCKER_IMAGE, '-f Dockerfile .')
                 }
             }
         }
@@ -25,7 +25,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Run the tests inside the Docker container
+                    // Run tests inside the Docker container
                     docker.image(DOCKER_IMAGE).inside {
                         sh 'pytest'
                     }
