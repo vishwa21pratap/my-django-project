@@ -30,7 +30,7 @@ pipeline {
                     echo "Unix-style workspace path: ${workspaceUnix}"
                     
                     // Run tests inside the Docker container
-                    docker.image(DOCKER_IMAGE).inside("-v ${workspaceUnix}/myproject:/usr/src/app") {
+                    docker.image(DOCKER_IMAGE).inside("-v ${workspaceUnix}/usr/src/app") {
                         sh 'ls -al /usr/src/app' // List files to check if the path is correct
                         sh 'python manage.py test'
                     }
