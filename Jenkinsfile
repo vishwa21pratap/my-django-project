@@ -26,8 +26,7 @@ pipeline {
             steps {
                 script {
                     // Convert Windows path to Unix-style path for Docker volume mount
-                    def workspaceUnix = pwd().replace('\\', '/').replace('C:', '')
-                    workspaceUnix = '/' + workspaceUnix // Ensure it starts with a forward slash
+                    def workspaceUnix = pwd().replace('\\', '/')
                     echo "Unix-style workspace path: ${workspaceUnix}"
                     
                     // Run tests inside the Docker container
