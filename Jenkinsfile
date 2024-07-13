@@ -27,7 +27,7 @@ pipeline {
                 script {
                     // Run the tests inside the Docker container
                     docker.image(DOCKER_IMAGE).inside("-v ${WORKSPACE}:/usr/src/app") {
-                        sh 'pytest'
+                        sh 'python manage.py test'
                     }
                 }
             }
@@ -36,7 +36,7 @@ pipeline {
         stage('Archive Results') {
             steps {
                 // Archive test results
-                junit 'test-reports/*.xml'
+                junit '*/test-reports/*.xml'
             }
         }
     }
