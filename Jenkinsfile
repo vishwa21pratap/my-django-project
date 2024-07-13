@@ -10,6 +10,8 @@ pipeline {
             steps {
                 // Checkout the source code from the Git repository
                 git url: 'https://github.com/vishwa21pratap/my-django-project.git', branch: 'master'
+                // List the files in the workspace to verify they are present
+                bat 'dir'
             }
         }
 
