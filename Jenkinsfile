@@ -11,7 +11,10 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("my-django-app")
+                    def dockerImage = docker.build("my-django-app")
+                    // Tag the Docker image
+                    dockerImage.tag("my-django-app:${BUILD_NUMBER}")
+                    dockerImage.tag("my-django-app:latest")
                 }
             }
         }
@@ -19,8 +22,6 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    def workspacePath = pwd()
-                    echo "Unix-style workspace path: ${workspacePath}"
                     docker.image("my-django-app").inside {
                         sh 'pytest'
                     }
