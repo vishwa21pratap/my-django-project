@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the source code from the Git repository
-                git url: 'https://github.com/vishwa21pratap/my-django-project.git', branch: 'main'
+                git url: 'https://github.com/vishwa21pratap/my-django-project.git', branch: 'master'
             }
         }
 
@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    docker.build(DOCKER_IMAGE, '.')
+                    docker.build(DOCKER_IMAGE)
                 }
             }
         }
@@ -25,7 +25,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Run tests inside the Docker container
+                    // Run the tests inside the Docker container
                     docker.image(DOCKER_IMAGE).inside {
                         sh 'pytest'
                     }
